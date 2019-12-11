@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "graphe.hpp"
+#include "maison.hh"
 #include <array>
 #include <vector>
 
