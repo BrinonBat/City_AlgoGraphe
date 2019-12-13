@@ -40,7 +40,7 @@ Ville initialiserVille(int testNum){
 		break;}
 
 		//cas d'erreur
-		default: break;
+		default: std::cout<<"erreur lors de la selection du numero de test"<<std::endl;break;
 	}
 	return ville;
 }
@@ -70,7 +70,7 @@ void tests(int testNum,Ville &ville){
 	   break;}
 
 		//cas d'erreur
-		default: std::cout<<"erreur lors de la selection du numero de test"<<std::endl;break;
+		default: std::cout<<"veuillez selectionnez un numero valide"<<std::endl;break;
 	}
 
 }
