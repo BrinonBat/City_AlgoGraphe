@@ -11,17 +11,25 @@ Ville initialiserVille(int testNum){
 		//initialisation pour l'exercice 1
 		case(1):{
 			//creation de Maisons
-			Maison m1(coordonnee(1,2,3));
-			Maison m2(coordonnee(3,2,1));
-			Maison m3(coordonnee(4,2,3));
+			Maison m1(coordonnee(1,0,0));
+			Maison m2(coordonnee(1,2,0));
+			Maison m3(coordonnee(-2,0,0));
+			Maison m4(coordonnee(2,-2,0));
+			Maison m5(coordonnee(1,0,-1));
 			//creation des routes entre les maisons
 			m1.ajoutRoute(m2);
 			m2.ajoutRoute(m3);
 			m3.ajoutRoute(m1);
+			m3.ajoutRoute(m5);
+			m5.ajoutRoute(m1);
+			m5.ajoutRoute(m4);
+			m4.ajoutRoute(m2);
 			//ajout des maisons à la ville
 			ville.ajoutMaison(m1);
 			ville.ajoutMaison(m2);
 			ville.ajoutMaison(m3);
+			ville.ajoutMaison(m4);
+			ville.ajoutMaison(m5);
 		break;}
 
 		//initialisation pour l'exercice 2
@@ -55,7 +63,7 @@ void tests(int testNum,Ville &ville){
 
 		// tests de l'exo 1
 		case(1):{
-
+			
 		break;}
 
 		 // tests de l'exo 2
