@@ -10,12 +10,15 @@ Ville initialiserVille(int testNum){
 
 		//initialisation pour l'exercice 1
 		case(1):{
+			//creation de Maisons
 			Maison m1(coordonnee(1,2,3));
 			Maison m2(coordonnee(3,2,1));
 			Maison m3(coordonnee(4,2,3));
+			//creation des routes entre les maisons
 			m1.ajoutRoute(m2);
 			m2.ajoutRoute(m3);
 			m3.ajoutRoute(m1);
+			//ajout des maisons à la ville
 			ville.ajoutMaison(m1);
 			ville.ajoutMaison(m2);
 			ville.ajoutMaison(m3);
