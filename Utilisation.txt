@@ -1,0 +1,16 @@
+compilation:
+cd city
+mkdir build
+cd build
+cmake..
+make
+_____________________________________
+
+éxecution (dans le dossier build):
+./city [n°Exercice]
+
+______________________________________
+
+modification des tests directement dans le fichier main.cpp :
+dans la fonction tests ---> modification de l'execution
+dans la fonction initialiserVille ---> modification de l'initialisation
