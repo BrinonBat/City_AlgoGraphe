@@ -47,9 +47,10 @@ Ville initialiserVille(int testNum){
 
 void tests(int testNum,Ville &ville){
 	//test général
-	std::cout<<"test n°"<<testNum<<" sur la matrice suivante:"<<std::endl;
-	ville.afficher();
-
+	if(testNum>0 && testNum<5){
+		std::cout<<"test n°"<<testNum<<" sur la matrice suivante:"<<std::endl;
+		ville.afficher();
+	}
 	switch(testNum){
 
 		// tests de l'exo 1
