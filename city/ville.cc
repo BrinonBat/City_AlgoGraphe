@@ -46,7 +46,12 @@ int Ville::donneIndice(Maison testee, Maison dst){
 			+(std::abs(testee.getCoord()._z - dst.getCoord()._z))
 		);
 }
-
+bool Maison::estDans(std::vector<Maison> vect){
+	for( auto &m : vect){
+		if(m.getCoord()==_coord) return true;
+	}
+	return false;
+}
 std::vector<Maison> Ville::CCaEtoile(Maison src,Maison dst){
 	std::vector<Maison> result;
 	result.push_back(src);
