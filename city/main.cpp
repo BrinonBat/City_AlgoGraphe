@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "graphe.hpp"
-#include "maison.hh"
+#include "ville.hh"
 #include <array>
 #include <vector>
 
@@ -16,7 +16,7 @@ int lecture(std::string input, Graphe& G){
       //Si c'est un v on récupère le nombre de sommets et on crée une matrice d'adjacence de cette taille
       if (ligne[0] == 'v') {
         //Parsing des arguments
-        unsigned int i=1;        
+        unsigned int i=1;
         std::vector<std::string> args;
         while ((i < ligne.length()) and (args.size()<1)) {
           std::string arg = "";
@@ -35,14 +35,14 @@ int lecture(std::string input, Graphe& G){
           }
           catch (const std::invalid_argument& ia) {
             std::cerr << "Invalid argument : " << ia.what() << " Ligne " << nbLine << std::endl;
-            nbSommets = 0;          
+            nbSommets = 0;
           }
           G.initMatrice(nbSommets);
         }
       }
       else if (ligne[0] == 'e') {
        //Parsing des arguments
-        unsigned int i=1;        
+        unsigned int i=1;
         std::vector<std::string> args;
         while ((i < ligne.length()) and (args.size()<3)) {
           std::string arg = "";
@@ -53,7 +53,7 @@ int lecture(std::string input, Graphe& G){
         if (args.size()>3) {
           std::cout << "Too many arguments line " << nbLine << std::endl;
           return 1;
-        } else if (args.size()<3) { 
+        } else if (args.size()<3) {
           std::cout << "Too few arguments line " << nbLine << std::endl;
           return 1;
         }
@@ -70,13 +70,13 @@ int lecture(std::string input, Graphe& G){
             std::cerr << "Invalid argument : " << ia.what() << " Ligne " << nbLine << std::endl;
             origine = 0;
             destination = 0;
-            poids = -1;          
+            poids = -1;
           }
           G.ajoutArc(origine,destination,poids);
         }
       }
       else if (ligne[0] == 'o') {
-        unsigned int i=1;        
+        unsigned int i=1;
         std::vector<std::string> args;
         while ((i < ligne.length()) and (args.size()<1)) {
           std::string arg = "";
@@ -88,7 +88,7 @@ int lecture(std::string input, Graphe& G){
           std::cout << "Too many arguments line " << nbLine << std::endl;
           return 1;
         }
-        G.setOriente(!args[0].compare("go")); 
+        G.setOriente(!args[0].compare("go"));
       }
       else if (ligne[0] != 'c'){
          std::cout << "Ligne " << nbLine << " non reconnue : " << ligne << std::endl;
@@ -103,7 +103,7 @@ int lecture(std::string input, Graphe& G){
 
 int main(int argc, char** argv){
   Graphe G;
-  if (argc != 2) std::cout << "Pas de fichier en paramêtre" << std::endl; 
+  if (argc != 2) std::cout << "Pas de fichier en paramêtre" << std::endl;
   else lecture(argv[1],G);
   G.affichageMatrice();
   G.parcoursProfondeur();

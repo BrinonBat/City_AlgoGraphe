@@ -16,7 +16,7 @@ private:
     coordonnee _coord;
     std::vector<coordonnee> _routes;
 public:
-    Maison(coordonnee c) : _coord(c), {}
+    Maison(coordonnee c) : _coord(c){}
     Maison(int r); //r est le rayon du graphe
 
     coordonnee getCoord() const { return _coord; }
@@ -32,8 +32,8 @@ private:
     std::vector<Maison> _maisons;
 
 public:
-    instruction() : _nbsommet(0), _estConstruit(false){};
-    instruction(const instruction &autre) = default;
+    Ville() : _nbsommet(0), _estConstruit(false){};
+    Ville(const Ville &autre) = default;
     //accesseurs
     Graphe getGraphe() const { return _graphe; }
     int getRayon() const { return _rayon; }
