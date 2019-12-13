@@ -29,6 +29,9 @@ public:
 	//void ajoutRoute(Maison m){_routes.push_back(m.getCoord());}
 	void ajoutRoute(Maison &m){_voisins.push_back(m);}
 	std::vector<Maison> getVoisins()const{return _voisins;}
+
+	//utilisés pour algorithmes
+	bool estDans(std::vector<Maison> vect); // retourne vrai si la maison est dans le vecteur
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
