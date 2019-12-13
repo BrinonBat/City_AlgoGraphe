@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "ville.hh"
+#include "graphe.hh"
 #include <array>
 #include <vector>
 
@@ -50,6 +51,7 @@ Ville initialiserVille(int testNum){
 		//cas d'erreur
 		default: std::cout<<"erreur lors de la selection du numero de test"<<std::endl;break;
 	}
+	ville.exec();
 	return ville;
 }
 
@@ -91,6 +93,11 @@ int main(int argc, char** argv){
 		int testNum=atoi(argv[1]);
 		Ville ville=initialiserVille(testNum);
 	  	tests(testNum,ville);
+		  
    	}
+	Ville ville = initialiserVille(1);
+	std::cout<<std::endl;
+	ville.dijkstra(1);
+	ville.afficher();
   	return 0;
 }

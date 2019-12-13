@@ -1,5 +1,8 @@
 #include "ville.hh"
 #include <limits>
+#include <array>
+#include <iostream>
+#include <limits>
 /* si l'arc allant vers m existe, retourne la valeur de celui-ci
 retourn 0 sinon */
 unsigned int Maison::distanceVers(Maison m){
@@ -17,24 +20,8 @@ unsigned int Maison::distanceVers(Maison m){
 Maison::~Maison(){
 
 }
-void Ville::afficher()const{
-	//premiere ligne avec numeros de colonne
-	std::cout<<"_";
-	for(int i(1);i<=nbSommet();i++){
-		std::cout<<"|"<<i;
-	}
-	std::cout<<std::endl;
-	for(int i(1);i<=nbSommet();i++){
-		std::cout<<i<<"|";
-		for(int j(1);j<=nbSommet();j++){
-			if(std::numeric_limits<int>::max()==getMaison(i).distanceVers(getMaison(j))) // cas ou l'arc n'existe pas
-				std::cout<<" |";
-			else
-				std::cout<<getMaison(i).distanceVers(getMaison(j))<<"|";
-		}
-		std::cout<<std::endl;
-	}
-	std::cout<<std::endl;
+void Ville::afficher(){
+	_graphe.affichageMatrice();
 }
 
 ////////////////////////////////////////////ALGORITHMES///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,11 +42,40 @@ bool Maison::estDans(std::vector<Maison> vect){
 std::vector<Maison> Ville::CCaEtoile(Maison src,Maison dst){
 	std::vector<Maison> result;
 	result.push_back(src);
-	std::vector<Maisons> path;
+	std::vector<Maison> path;
 	path.push_back(src);
 	for(auto v : src.getVoisins()){
 
 	}
 
 	return result;
+}
+int Ville::indiceMaison(coordonnee c)
+{
+	for (int i = 0; i < (int)_maisons.size(); i++)
+	{
+		if (_maisons[i].getCoord() == c)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+void Ville::exec(){
+		_graphe.setNbSommets((int)_maisons.size());
+		_graphe.initMatrice();
+		for (auto const &i : _maisons)
+		{
+			for (auto const j : i.getRoute())
+			{
+				_graphe.ajoutArc(indiceMaison(i.getCoord()),indiceMaison(j.getCoord()),(double) donneIndice(i, j));
+			}
+		}
+}
+
+// DIJKSTRA -----------------------------------------------------------
+
+void Ville::dijkstra(int src){
+	_graphe.dijkstra(src);
 }

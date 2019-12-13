@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <vector>
-
+#include <array>
+#include <limits>
+#include "graphe.hh"
 struct coordonnee
 {
     int _x, _y, _z;
@@ -25,7 +27,7 @@ public:
 	unsigned int distanceVers(Maison m); // retourne la valeur de l'arc (s'il existe) entre la maison et une autre
     coordonnee getCoord() const { return _coord; }
     void setCoord(coordonnee nouv) { _coord = nouv; }
-    //std::vector<coordonnee> getRoute() const { return _routes; }
+    std::vector<Maison> getRoute() const { return _voisins; }
 	//void ajoutRoute(Maison m){_routes.push_back(m.getCoord());}
 	void ajoutRoute(Maison &m){_voisins.push_back(m);}
 	std::vector<Maison> getVoisins()const{return _voisins;}
@@ -39,6 +41,7 @@ class Ville{
 private:
     /*int _rayon;*/
     std::vector<Maison> _maisons;
+	Graphe _graphe;
 
 public:
 	//constructeurs
@@ -52,10 +55,17 @@ public:
 	Maison getMaison(int n)const{return _maisons[n-1];}
     int nbSommet() const { return _maisons.size(); }
     std::vector<Maison> getMaisons() const { return _maisons; }
-	void afficher()const;
+	void afficher();
+
+	void exec();
+	int indiceMaison(coordonnee c); //retourne l'indice de la maison situé aux coordonée données
 
 	//algorithmes
 	int donneIndice(Maison testee, Maison dst); // évalue la distance entre la maison testée et la maison destination
 	std::vector<Maison> CCaEtoile(Maison srx,Maison dst); // algorithme A* donnant un court chemin
-
+	
+	//fonction pour dijkstra
+	double minDistance(std::array<double, Max> dist, std::array<bool, Max> sptSet);
+	void printSolution(std::array<double, Max> dist);
+	void dijkstra(int src);//algorithme dijkstra
 };
