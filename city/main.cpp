@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include "ville.hh"
-#include "graphe.hh"
 #include <array>
 #include <vector>
 #include <ctime>
@@ -14,26 +13,32 @@ Ville initialiserVille(int testNum){
 		//initialisation pour l'exercice 1
 		case(1):{
 			//creation de Maisons
-			Maison m1(coordonnee(1,0,0));
-			Maison m2(coordonnee(1,2,0));
-			Maison m3(coordonnee(-2,0,0));
+			Maison m1(coordonnee(1,-1,0));
+			Maison m2(coordonnee(-1,2,-1));
+			Maison m3(coordonnee(-2,0,2));
 			Maison m4(coordonnee(2,-2,0));
 			Maison m5(coordonnee(1,0,-1));
+			Maison m6(coordonnee(0, 1, -1));
 			//creation des routes entre les maisons
 			m1.ajoutRoute(m2);
+			m1.ajoutRoute(m4);
 			m2.ajoutRoute(m3);
 			m3.ajoutRoute(m1);
 			m3.ajoutRoute(m5);
 			m5.ajoutRoute(m1);
+			m5.ajoutRoute(m6);
 			m5.ajoutRoute(m4);
 			m4.ajoutRoute(m2);
+			m4.ajoutRoute(m6);
+
 			//ajout des maisons à la ville
 			ville.ajoutMaison(m1);
 			ville.ajoutMaison(m2);
 			ville.ajoutMaison(m3);
 			ville.ajoutMaison(m4);
 			ville.ajoutMaison(m5);
-		break;}
+			ville.ajoutMaison(m6);
+			break;}
 
 		//initialisation pour l'exercice 2
 		case(2):{
@@ -53,7 +58,6 @@ Ville initialiserVille(int testNum){
 		//cas d'erreur
 		default: std::cout<<"erreur lors de la selection du numero de test"<<std::endl;break;
 	}
-	ville.exec();
 	return ville;
 }
 
@@ -99,16 +103,7 @@ int main(int argc, char** argv){
    	}
 	Ville ville = initialiserVille(1);
 	std::cout<<std::endl;
-	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
-	ville.dijkstra(1);
-	std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
-	auto secd=sec.count();
-	
 	ville.afficher();
-	start = std::chrono::system_clock::now();
-	ville.Aetoile(1);
-	sec = std::chrono::system_clock::now() - start;
-	std::cout << "temps dijkstra : \t" << secd <<std::endl;
-	std::cout << "temps aetoile : \t" << sec.count() << std::endl;
+	ville.courseDijkAetoile(1,6);
 	return 0;
 }
