@@ -1,5 +1,11 @@
 #include "ville.hh"
 #include <limits>
+#include <array>
+#include <iostream>
+#include <limits>
+#include <queue>
+#include <algorithm>
+#include <chrono>
 /* si l'arc allant vers m existe, retourne la valeur de celui-ci
 retourn 0 sinon */
 unsigned int Maison::distanceVers(Maison m){
@@ -17,34 +23,36 @@ unsigned int Maison::distanceVers(Maison m){
 Maison::~Maison(){
 
 }
-void Ville::afficher()const{
-	//premiere ligne avec numeros de colonne
-	std::cout<<"_";
-	for(int i(1);i<=nbSommet();i++){
-		std::cout<<"|"<<i;
+void Ville::afficher(){
+	std::cout<<"  ";
+	for(int i=0;i<(int)_maisons.size();i++){
+		std::cout<<" "<<i+1;
 	}
 	std::cout<<std::endl;
-	for(int i(1);i<=nbSommet();i++){
-		std::cout<<i<<"|";
-		for(int j(1);j<=nbSommet();j++){
-			if(std::numeric_limits<int>::max()==getMaison(i).distanceVers(getMaison(j))) // cas ou l'arc n'existe pas
-				std::cout<<" |";
-			else
-				std::cout<<getMaison(i).distanceVers(getMaison(j))<<"|";
+	for (int i = 0; i < (int)_maisons.size(); i++)
+	{
+		std::cout <<i+1<< "| ";
+		for (int j = 0; j < (int)_maisons.size(); j++)
+		{
+			if(_maisons[j].estDans(_maisons[i].getRoute())){
+				std::cout<<donneIndice(_maisons[i],_maisons[j])<<" ";
+			}else{
+				std::cout << "0 ";
+			}
+			
 		}
-		std::cout<<std::endl;
+		std::cout << std::endl;
 	}
-	std::cout<<std::endl;
+	
 }
 
 ////////////////////////////////////////////ALGORITHMES///////////////////////////////////////////////////////////////////////////////////////////////////
 //estime la distance entre la Maison testée et la destination
 int Ville::donneIndice(Maison testee, Maison dst){
-	return(
-			 (std::abs(testee.getCoord()._x - dst.getCoord()._x))
-			+(std::abs(testee.getCoord()._y - dst.getCoord()._y))
-			+(std::abs(testee.getCoord()._z - dst.getCoord()._z))
-		);
+	return(std::max(std::abs(testee.getCoord()._x - dst.getCoord()._x)
+		,std::max(std::abs(testee.getCoord()._y - dst.getCoord()._y)
+		,std::abs(testee.getCoord()._z - dst.getCoord()._z))));
+			 
 }
 bool Maison::estDans(std::vector<Maison> vect){
 	for( auto &m : vect){
@@ -52,14 +60,182 @@ bool Maison::estDans(std::vector<Maison> vect){
 	}
 	return false;
 }
-std::vector<Maison> Ville::CCaEtoile(Maison src,Maison dst){
-	std::vector<Maison> result;
-	result.push_back(src);
-	std::vector<Maisons> path;
-	path.push_back(src);
-	for(auto v : src.getVoisins()){
 
+int Ville::indiceMaison(coordonnee c)
+{
+	for (int i = 0; i < (int)_maisons.size(); i++)
+	{
+		if (_maisons[i].getCoord() == c)
+		{
+			return i;
+		}
 	}
+	return -1;
+}
 
-	return result;
+
+// DIJKSTRA A *-----------------------------------------------------------
+void Ville::courseDijkAetoile(int src,int dst){
+	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
+	dijkstra(1, 2);
+	std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
+	auto secd = sec.count();
+
+	start = std::chrono::system_clock::now();
+	Atest(1, 2);
+	sec = std::chrono::system_clock::now() - start;
+	std::cout << "temps dijkstra : \t" << secd << std::endl;
+	std::cout << "temps aetoile : \t" << sec.count() << std::endl;
+}
+
+
+
+//retourne vrai si le noeud est dans la liste 
+bool existeliste(noeud n, std::vector<noeud> closedlist)
+{
+	for(auto &i:closedlist){
+		if(i.m.getCoord()==n.m.getCoord()){
+			return true;
+		}
+	}
+	return false;
+}
+int coutliste(noeud n, std::vector<noeud> openlist){
+
+	for (auto &i : openlist)
+	{
+		if (i.m.getCoord() == n.m.getCoord())
+		{
+			return i.cout;
+		}
+	}
+	return -1;
+}
+
+	void Ville::dijkstra(int src, int dst)
+{
+	std::cout<<"------------------------------------------ Début Dijktra ------------------------------------"<<std::endl;
+	noeud depart(_maisons[src - 1], 0, 0);
+	noeud arrive(_maisons[dst - 1], 0, 0);
+	std::vector<noeud> closedlist;
+	std::vector<noeud> openlist;
+
+	openlist.push_back(depart);
+	while (!openlist.empty())
+	{
+
+		auto u = openlist.back();
+		openlist.pop_back();
+		std::cout << "---Noeud courant " << indiceMaison(u.m.getCoord()) + 1 << " - " << u.m.getCoord() << std::endl;
+		if (u.m == arrive.m)
+		{
+			std::cout << "-----------------------------------------------------> La distance de " << src << " à " << dst << " selon dijkstra est de " << u.heuristique << std::endl;
+			break;
+		}
+		if (_maisons[indiceMaison(u.m.getCoord())].getRoute().size() == 0)
+		{
+			std::cout << "Ce noeud n'a pas de voisin retour arrière" << std::endl;
+		}
+		for (auto &i : _maisons[indiceMaison(u.m.getCoord())].getVoisins())
+		{
+			
+			noeud v(i, ((i.estDans(_maisons[indiceMaison(u.m.getCoord())].getVoisins())) ? donneIndice(i, u.m) : 0), donneIndice(i, _maisons[dst - 1]));
+			std::cout << "\t Distance entre " << u.m.getCoord() << " et " << indiceMaison(i.getCoord()) +1<< " - " << i.getCoord() << " est " << donneIndice(i, u.m)<< " Distance parcourue : " << v.cout+u.cout << std::endl;
+			if (existeliste(v, closedlist) || (existeliste(v, openlist) && v.cout > coutliste(v, openlist)))
+			{
+				if ( (existeliste(v, openlist) && v.cout > coutliste(v, openlist))){
+					std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà un chemin et plus court" << std::endl;
+				}else{
+					std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà été parcourue" << std::endl;
+				}
+			}
+			else
+			{
+
+				v.cout = u.cout + donneIndice(u.m, v.m);
+				v.heuristique = v.cout ;
+				std::cout << "\t" << indiceMaison(v.m.getCoord()) + 1 << " - " << v.m.getCoord() << " - cout: " << v.cout << " - heur: " << v.heuristique << " - dist arrive: " << donneIndice(v.m, arrive.m) << std::endl;
+				openlist.push_back(v);
+				std::cout << std::endl;
+			}
+		}
+		std::cout << std::endl;
+		closedlist.push_back(u);
+		std::sort(openlist.begin(), openlist.end());
+		std::cout << "   Noeuds possible";
+		for (auto &k : openlist)
+		{
+			std::cout << " ||| " << indiceMaison(k.m.getCoord()) + 1 << " " << k.m.getCoord() << " Distance parcourue : " << k.heuristique;
+		}
+		std::cout << std::endl;
+		std::cout << "   " << indiceMaison(openlist.back().m.getCoord()) + 1 << " - " << (openlist.back().m.getCoord()) << " a été choisi car il est le plus proche de notre destination" << std::endl;
+		std::cout << std::endl;
+	}
+}
+
+
+std::ostream & operator <<(std::ostream &os,coordonnee c){
+	os<<"("<<c._x<<","<<c._y<<","<<c._z<<")";
+	return os;
+}
+void Ville::Atest(int src,int dst){
+	std::cout << "------------------------------------------ Début A* ------------------------------------" << std::endl;
+	noeud depart(_maisons[src-1],0,0);
+	noeud arrive(_maisons[dst-1],0,0);
+	std::vector<noeud> closedlist;
+	std::vector<noeud> openlist;
+
+	openlist.push_back(depart);
+	while (!openlist.empty())
+	{
+		
+		auto u = openlist.back();
+		openlist.pop_back();
+		std::cout << "---Noeud courant " << indiceMaison(u.m.getCoord())+1<<" - " << u.m.getCoord() << std::endl;
+		if (u.m == arrive.m)
+		{
+			std::cout<<"-----------------------------------------------------> La distance de "<<src<<" à "<<dst<<" selon A* est de "<<u.heuristique<<std::endl;
+			break;
+		}
+		if (_maisons[indiceMaison(u.m.getCoord())].getRoute().size()==0){
+			std::cout<<"Ce noeud n'a pas de voisin retour arrière"<<std::endl;
+		}
+			for (auto &i : _maisons[indiceMaison(u.m.getCoord())].getVoisins())
+			{
+				noeud v(i, ((i.estDans(_maisons[indiceMaison(u.m.getCoord())].getVoisins())) ? donneIndice(i, u.m) : 0), donneIndice(i, _maisons[dst - 1]));
+				std::cout << "\t Distance entre " << u.m.getCoord() << " et " << indiceMaison(i.getCoord()) + 1 << " - " << i.getCoord() << " est " << donneIndice(i, u.m) << " Distance parcourue : " << u.cout+v.cout << std::endl;
+				
+				if (existeliste(v, closedlist) || (existeliste(v,openlist) && v.cout > coutliste(v,openlist)))
+				{
+					if ((existeliste(v, openlist) && v.cout > coutliste(v, openlist)))
+					{
+						std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà un chemin et plus court" << std::endl;
+					}
+					else
+					{
+						std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà été parcourue" << std::endl;
+					}
+				}
+				else
+				{
+					
+					v.cout = u.cout + donneIndice(u.m, v.m);
+					v.heuristique = v.cout + donneIndice(v.m, arrive.m);
+					std::cout << "\t" << indiceMaison(v.m.getCoord()) + 1 << " - " << v.m.getCoord() << " - cout: " << v.cout << " - heur: " << v.heuristique << " - dist arrive: " << donneIndice(v.m, arrive.m) << std::endl;
+					openlist.push_back(v);
+					std::cout << std::endl;
+				}
+			}
+			std::cout << std::endl;
+			closedlist.push_back(u);
+			std::sort(openlist.begin(), openlist.end());
+			std::cout << "   Noeuds possible";
+			for (auto &k : openlist)
+			{
+				std::cout << " ||| " << indiceMaison(k.m.getCoord()) + 1 << " " << k.m.getCoord() << " Distance parcourue + distance de l'arrivé: " << k.heuristique;
+		}
+		std::cout<<std::endl;
+		std::cout<<"   "<<indiceMaison(openlist.back().m.getCoord())+1<<" - "<<(openlist.back().m.getCoord())<<" a été choisi car il est le plus proche de notre destination"<<std::endl;
+		std::cout<<std::endl;
+	}
 }

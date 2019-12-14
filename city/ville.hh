@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
 #include <vector>
-
+#include <array>
+#include <limits>
 struct coordonnee
 {
     int _x, _y, _z;
@@ -12,7 +13,10 @@ struct coordonnee
 	//constructeur
 	coordonnee(int x,int y,int z):
 		_x(x),_y(y),_z(z){}
+
+	
 };
+
 
 class Maison{
 private:
@@ -25,13 +29,15 @@ public:
 	unsigned int distanceVers(Maison m); // retourne la valeur de l'arc (s'il existe) entre la maison et une autre
     coordonnee getCoord() const { return _coord; }
     void setCoord(coordonnee nouv) { _coord = nouv; }
-    //std::vector<coordonnee> getRoute() const { return _routes; }
+    std::vector<Maison> getRoute() const { return _voisins; }
 	//void ajoutRoute(Maison m){_routes.push_back(m.getCoord());}
 	void ajoutRoute(Maison &m){_voisins.push_back(m);}
 	std::vector<Maison> getVoisins()const{return _voisins;}
+	bool operator==(Maison const & m){return _coord==m.getCoord();}
 
 	//utilisés pour algorithmes
 	bool estDans(std::vector<Maison> vect); // retourne vrai si la maison est dans le vecteur
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,10 +58,36 @@ public:
 	Maison getMaison(int n)const{return _maisons[n-1];}
     int nbSommet() const { return _maisons.size(); }
     std::vector<Maison> getMaisons() const { return _maisons; }
-	void afficher()const;
+	void afficher();
+
+	int indiceMaison(coordonnee c); //retourne l'indice de la maison situé aux coordonée données
 
 	//algorithmes
+	void courseDijkAetoile(int src,int dst);// affiche le temps d'exécution de dijkstra et a*
 	int donneIndice(Maison testee, Maison dst); // évalue la distance entre la maison testée et la maison destination
-	std::vector<Maison> CCaEtoile(Maison srx,Maison dst); // algorithme A* donnant un court chemin
-
+	
+	void dijkstra(int src,int dst);//algorithme dijkstra
+	void Atest(int src,int dst);
 };
+
+// struct pour dijkstra et A*
+struct noeud
+{
+	Maison m;
+	// distance parcourue
+	int cout;
+	// distance parcourue plus distance de l'arrivé
+	int heuristique;
+	noeud(Maison ma, int c, int h) : m(ma), cout(c), heuristique(h) {}
+
+	bool operator==(noeud const &n)
+	{
+		return (m.getCoord() == n.m.getCoord()) && (cout == n.cout) && (heuristique == n.heuristique);
+	}
+	bool operator<(noeud const &n1)
+	{
+		return heuristique > n1.heuristique;
+	}
+};
+
+std::ostream & operator<<(std::ostream &os,coordonnee c);
