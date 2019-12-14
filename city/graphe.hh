@@ -5,6 +5,8 @@
 #include <tuple>
 #include <array>
 #include <limits>
+#include <queue>
+#include <map>
 const int Max = 1000;
 
 
@@ -24,6 +26,8 @@ public:
     int getNbSommets() { return nbSommets; }
     void setNbSommets(int i) { nbSommets=i; }
     void setOriente(bool o) { oriente = o; };
+    std::array<std::array<double, Max>, Max> getMat(){return matrice;}
+    double matij(int i,int j){return matrice[i][j];}
     void ajoutArc(int, int, double);
     void affichageMatrice();
     void parcoursProfondeur();
@@ -32,5 +36,4 @@ public:
     void dijkstra(int src);
     double minDistance(std::array<double, Max> dist, std::array<bool, Max> sptSet);
     void printSolution(std::array<double, Max> dist);
-    void fordfulkerson(int deb, int fin);
 };

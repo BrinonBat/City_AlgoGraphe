@@ -132,7 +132,9 @@ void Graphe::printSolution(std::array<double, Max> dist)
 }
 void Graphe::dijkstra(int src)
 {
+    //contient les distances les plus courtes de src a i
     std::array<double, Max> dist;
+    //sptSet[i] = true si il a été marqué 
     std::array<bool, Max> sptSet;
     for (int i = 0; i < nbSommets; i++)
     {
@@ -149,9 +151,11 @@ void Graphe::dijkstra(int src)
             //std::cout << "sptSet: " << sptSet[v]<< " matrice u v : " + std::to_string(u) + " " + std::to_string(v) + " dist u: " + std::to_string(dist[u]) + " dist u + matrice u v : " + std::to_string(dist[u] + matrice[u][v])<<std::endl;
             if (!sptSet[v] && matrice[u][v] && dist[u] != std::numeric_limits<double>::infinity() && dist[u] + matrice[u][v] < dist[v])
             {
+                std::cout << "sptSet: " << sptSet[v] << " matrice u v : " + std::to_string(u) + " " + std::to_string(v) + " dist u: " + std::to_string(dist[u]) + " dist u + matrice u v : " + std::to_string(dist[u] + matrice[u][v])+" dist v "+std::to_string(dist[v]) << std::endl;
                 dist[v] = dist[u] + matrice[u][v];
             }
         }
     }
     printSolution(dist);
 }
+

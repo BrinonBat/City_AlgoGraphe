@@ -68,4 +68,5 @@ public:
 	double minDistance(std::array<double, Max> dist, std::array<bool, Max> sptSet);
 	void printSolution(std::array<double, Max> dist);
 	void dijkstra(int src);//algorithme dijkstra
+	void Aetoile(int src);
 };

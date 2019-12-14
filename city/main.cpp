@@ -4,6 +4,8 @@
 #include "graphe.hh"
 #include <array>
 #include <vector>
+#include <ctime>
+#include <chrono>
 
 Ville initialiserVille(int testNum){
 	Ville ville;
@@ -97,7 +99,16 @@ int main(int argc, char** argv){
    	}
 	Ville ville = initialiserVille(1);
 	std::cout<<std::endl;
+	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 	ville.dijkstra(1);
+	std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
+	auto secd=sec.count();
+	
 	ville.afficher();
-  	return 0;
+	start = std::chrono::system_clock::now();
+	ville.Aetoile(1);
+	sec = std::chrono::system_clock::now() - start;
+	std::cout << "temps dijkstra : \t" << secd <<std::endl;
+	std::cout << "temps aetoile : \t" << sec.count() << std::endl;
+	return 0;
 }

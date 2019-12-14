@@ -3,6 +3,7 @@
 #include <array>
 #include <iostream>
 #include <limits>
+#include <algorithm>
 /* si l'arc allant vers m existe, retourne la valeur de celui-ci
 retourn 0 sinon */
 unsigned int Maison::distanceVers(Maison m){
@@ -78,4 +79,41 @@ void Ville::exec(){
 
 void Ville::dijkstra(int src){
 	_graphe.dijkstra(src);
+	std::cout<<"nb sommet "<<_graphe.getNbSommets()<<std::endl;
+}
+
+
+void Ville::Aetoile(int src)
+{
+	//contient les distances les plus courtes de src a i
+	std::array<double, Max> dist;
+	//sptSet[i] = true si il a été marqué
+	std::array<bool, Max> sptSet;
+	for (int i = 0; i < _graphe.getNbSommets(); i++)
+	{
+		dist[i] = std::numeric_limits<double>::infinity(), sptSet[i] = false;
+	}
+
+	dist[src - 1] = 0;
+	for (int count = 0; count < (_graphe.getNbSommets() - 1); count++)
+	{
+		
+		int u = _graphe.minDistance(dist, sptSet);
+		sptSet[u] = true;
+		for (int v = 0; v < _graphe.getNbSommets(); v++)
+		{
+
+			//std::cout << "sptSet: " << sptSet[v] << " matrice u v : " + std::to_string(u) + " " + std::to_string(v) + " dist u: " + std::to_string(dist[u]) + " dist u + matrice u v : " + std::to_string(dist[u] + _graphe.matij(u, v)) << std::endl;
+
+			if (!sptSet[v] && _graphe.matij(u, v) && dist[u] != std::numeric_limits<double>::infinity() && dist[u] + _graphe.matij(u, v) < dist[v])
+			{
+				std::cout << "sptSet: " << sptSet[v] << " matrice u v : " + std::to_string(u) + " " + std::to_string(v) + " dist u: " + std::to_string(dist[u]) + " dist u + matrice u v : " + std::to_string(dist[u] + _graphe.matij(u, v)) + " dist v " + std::to_string(dist[v]) << std::endl;
+				dist[v] = dist[u] + _graphe.matij(u, v) + (double)_maisons[u].distanceVers(_maisons[v]);
+			}
+			
+		}
+		
+	}
+	_graphe.printSolution(dist);
+	
 }
