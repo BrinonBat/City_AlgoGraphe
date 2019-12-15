@@ -144,9 +144,9 @@ int coutliste(noeud n, std::vector<noeud> openlist){
 			if (existeliste(v, closedlist) || (existeliste(v, openlist) && v.cout > coutliste(v, openlist)))
 			{
 				if ( (existeliste(v, openlist) && v.cout > coutliste(v, openlist))){
-					std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà un chemin et plus court" << std::endl;
+					std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 1 << " - " << i.getCoord() << " a déjà un chemin et plus court" << std::endl;
 				}else{
-					std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà été parcourue" << std::endl;
+					std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 1 << " - " << i.getCoord() << " a déjà été parcourue" << std::endl;
 				}
 			}
 			else
@@ -209,11 +209,11 @@ void Ville::Atest(int src,int dst){
 				{
 					if ((existeliste(v, openlist) && v.cout > coutliste(v, openlist)))
 					{
-						std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà un chemin et plus court" << std::endl;
+						std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 1 << " - " << i.getCoord() << " a déjà un chemin et plus court" << std::endl;
 					}
 					else
 					{
-						std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà été parcourue" << std::endl;
+						std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 1 << " - " << i.getCoord() << " a déjà été parcourue" << std::endl;
 					}
 				}
 				else

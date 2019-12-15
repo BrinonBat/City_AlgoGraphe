@@ -22,6 +22,7 @@ Ville initialiserVille(int testNum){
 			//creation des routes entre les maisons
 			m1.ajoutRoute(m2);
 			m1.ajoutRoute(m4);
+			m1.ajoutRoute(m5);
 			m2.ajoutRoute(m3);
 			m3.ajoutRoute(m1);
 			m3.ajoutRoute(m5);
@@ -104,6 +105,6 @@ int main(int argc, char** argv){
 	Ville ville = initialiserVille(1);
 	std::cout<<std::endl;
 	ville.afficher();
-	ville.courseDijkAetoile(1,6);
+	ville.courseDijkAetoile(1,3);
 	return 0;
 }
