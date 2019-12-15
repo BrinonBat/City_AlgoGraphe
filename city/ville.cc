@@ -77,12 +77,12 @@ int Ville::indiceMaison(coordonnee c)
 // DIJKSTRA A *-----------------------------------------------------------
 void Ville::courseDijkAetoile(int src,int dst){
 	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
-	dijkstra(1, 2);
+	dijkstra(src, dst);
 	std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
 	auto secd = sec.count();
 
 	start = std::chrono::system_clock::now();
-	Atest(1, 2);
+	Atest(src, dst);
 	sec = std::chrono::system_clock::now() - start;
 	std::cout << "temps dijkstra : \t" << secd << std::endl;
 	std::cout << "temps aetoile : \t" << sec.count() << std::endl;
