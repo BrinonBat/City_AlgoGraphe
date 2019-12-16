@@ -77,12 +77,12 @@ int Ville::indiceMaison(coordonnee c)
 // DIJKSTRA A *-----------------------------------------------------------
 void Ville::courseDijkAetoile(int src,int dst){
 	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
-	dijkstra(1, 2);
+	dijkstra(src, dst);
 	std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
 	auto secd = sec.count();
 
 	start = std::chrono::system_clock::now();
-	Atest(1, 2);
+	Atest(src, dst);
 	sec = std::chrono::system_clock::now() - start;
 	std::cout << "temps dijkstra : \t" << secd << std::endl;
 	std::cout << "temps aetoile : \t" << sec.count() << std::endl;
@@ -144,9 +144,9 @@ int coutliste(noeud n, std::vector<noeud> openlist){
 			if (existeliste(v, closedlist) || (existeliste(v, openlist) && v.cout > coutliste(v, openlist)))
 			{
 				if ( (existeliste(v, openlist) && v.cout > coutliste(v, openlist))){
-					std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà un chemin et plus court" << std::endl;
+					std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 1 << " - " << i.getCoord() << " a déjà un chemin et plus court" << std::endl;
 				}else{
-					std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà été parcourue" << std::endl;
+					std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 1 << " - " << i.getCoord() << " a déjà été parcourue" << std::endl;
 				}
 			}
 			else
@@ -209,11 +209,11 @@ void Ville::Atest(int src,int dst){
 				{
 					if ((existeliste(v, openlist) && v.cout > coutliste(v, openlist)))
 					{
-						std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà un chemin et plus court" << std::endl;
+						std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 1 << " - " << i.getCoord() << " a déjà un chemin et plus court" << std::endl;
 					}
 					else
 					{
-						std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 2 << " - " << i.getCoord() << " a déjà été parcourue" << std::endl;
+						std::cout << "\t Le sommet " << indiceMaison(i.getCoord()) + 1 << " - " << i.getCoord() << " a déjà été parcourue" << std::endl;
 					}
 				}
 				else
