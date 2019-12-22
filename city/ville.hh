@@ -71,6 +71,7 @@ public:
 	void Atest(int src, int dst);
 
 	void tarjan();
+	void raccorder(std::vector<std::pair<int,int> > noeuds);// raccorde les différente parties d'une ville
 	void parcours(int i, int &num, int &nbscc, std::vector<std::pair<int, int>> &noeuds, std::vector<bool> &estdanspile, std::vector<int> &pile);
 
 	void kruskal();

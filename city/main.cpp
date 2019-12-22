@@ -85,8 +85,36 @@ Ville initialiserVille(int testNum){
 
 		//initialisation pour l'exercice 3
 		case(3):{
+			Maison m1(coordonnee(0, 0, 0));
+			Maison m2(coordonnee(4, -4, 0));
+			Maison m3(coordonnee(14, -14, 0));
+			Maison m4(coordonnee(-3, 8, -5));
+			Maison m5(coordonnee(-10, 20, -10));
+			Maison m6(coordonnee(1, 0, -1));
+			Maison m7(coordonnee(6, 0, -6));
+			Maison m8(coordonnee(0, 2, -2));
+			Maison m9(coordonnee(-8, 4, 4));
 
-		break;}
+			m1.ajoutRoute(m2);m1.ajoutRoute(m4);m1.ajoutRoute(m6);
+			m2.ajoutRoute(m1);m2.ajoutRoute(m3);m2.ajoutRoute(m4);m2.ajoutRoute(m6);
+			m3.ajoutRoute(m2);m3.ajoutRoute(m4);m3.ajoutRoute(m8);m3.ajoutRoute(m8);m3.ajoutRoute(m9);
+			m4.ajoutRoute(m1);m4.ajoutRoute(m2);m4.ajoutRoute(m3);m4.ajoutRoute(m5);m4.ajoutRoute(m6);m4.ajoutRoute(m7);m4.ajoutRoute(m9);
+			m5.ajoutRoute(m4);m5.ajoutRoute(m6);m5.ajoutRoute(m9);
+			m6.ajoutRoute(m1);m6.ajoutRoute(m2);m6.ajoutRoute(m4);m6.ajoutRoute(m5);m6.ajoutRoute(m7);m6.ajoutRoute(m8);
+			m7.ajoutRoute(m4);m7.ajoutRoute(m6);m7.ajoutRoute(m8);
+			m8.ajoutRoute(m3);m8.ajoutRoute(m6);m8.ajoutRoute(m7);
+			m9.ajoutRoute(m3);m9.ajoutRoute(m4);m9.ajoutRoute(m5);
+
+			ville.ajoutMaison(m1);
+			ville.ajoutMaison(m2);
+			ville.ajoutMaison(m3);
+			ville.ajoutMaison(m4);
+			ville.ajoutMaison(m5);
+			ville.ajoutMaison(m6);
+			ville.ajoutMaison(m7);
+			ville.ajoutMaison(m8);
+			ville.ajoutMaison(m9);
+			break;}
 
 		//initialisation pour l'exercice 4
 		case(4):{
@@ -109,16 +137,23 @@ void tests(int testNum,Ville &ville){
 
 		// tests de l'exo 1
 		case(1):{
-			
-		break;}
+			ville.courseDijkAetoile(1, 2);
+			std::cout << std::endl;
+			ville=initialiserVille(3);
+			ville.afficher();
+			ville.courseDijkAetoile(1, 5);
+			std::cout << std::endl;
+			break;}
 
 		 // tests de l'exo 2
 		case(2):{
-		break;}
+			ville.tarjan();
+			break;}
 
 		 // tests de l'exo 3
 		case(3):{
-		break;}
+			ville.kruskal();
+			break;}
 
 		// tests de l'exo 4
 	   case(4):{
@@ -139,12 +174,5 @@ int main(int argc, char** argv){
 	  	tests(testNum,ville);
 		  
    	}
-	Ville ville = initialiserVille(1);
-	std::cout<<std::endl;
-	ville.afficher();
-	ville.courseDijkAetoile(1,2);
-	std::cout<<std::endl;
-	ville.tarjan();
-	ville.kruskal();
 	return 0;
 }
