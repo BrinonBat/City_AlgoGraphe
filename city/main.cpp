@@ -43,21 +43,45 @@ Ville initialiserVille(int testNum){
 
 		//initialisation pour l'exercice 2
 		case(2):{
-			Maison m1(coordonnee(-5,0,5));
-			Maison m2(coordonnee(0,0,0));
-			Maison m3(coordonnee(3,0,-3));
-			Maison m4(coordonnee(0,4,-4));
+			Maison m1(coordonnee(-5, 0, 5));
+			Maison m2(coordonnee(0, 0, 0));
+			Maison m3(coordonnee(3, 0, -3));
+			Maison m4(coordonnee(0, 4, -4));
+			Maison m5(coordonnee(-4, 0, 4));
+			Maison m6(coordonnee(1, 0, -1));
+			Maison m7(coordonnee(6, 0, -6));
+			Maison m8(coordonnee(0, 2, -2));
 
-			m1.ajoutRoute(m3);
-			m3.ajoutRoute(m1);
-			m2.ajoutRoute(m3);
-			m1.ajoutRoute(m4);
+			m1.ajoutRoute(m2);
+			m1.ajoutRoute(m8);
+			
+			m2.ajoutRoute(m7);
+			
+			m3.ajoutRoute(m2);
+			m3.ajoutRoute(m4);
+			m3.ajoutRoute(m6);
+
+			m4.ajoutRoute(m6);
+
+			m5.ajoutRoute(m4);
+
+			m6.ajoutRoute(m5);
+
+			m7.ajoutRoute(m6);
+			m7.ajoutRoute(m3);
+
+			m8.ajoutRoute(m1);
+			m8.ajoutRoute(m7);
 
 			ville.ajoutMaison(m1);
 			ville.ajoutMaison(m2);
 			ville.ajoutMaison(m3);
 			ville.ajoutMaison(m4);
-		break;}
+			ville.ajoutMaison(m5);
+			ville.ajoutMaison(m6);
+			ville.ajoutMaison(m7);
+			ville.ajoutMaison(m8);
+			break;}
 
 		//initialisation pour l'exercice 3
 		case(3):{
@@ -118,6 +142,8 @@ int main(int argc, char** argv){
 	Ville ville = initialiserVille(1);
 	std::cout<<std::endl;
 	ville.afficher();
-	ville.courseDijkAetoile(1,3);
+	ville.courseDijkAetoile(1,2);
+	std::cout<<std::endl;
+	ville.tarjan();
 	return 0;
 }

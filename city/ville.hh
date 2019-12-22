@@ -3,6 +3,7 @@
 #include <vector>
 #include <array>
 #include <limits>
+#include <memory>
 struct coordonnee
 {
     int _x, _y, _z;
@@ -67,27 +68,33 @@ public:
 	int donneIndice(Maison testee, Maison dst); // évalue la distance entre la maison testée et la maison destination
 	
 	void dijkstra(int src,int dst);//algorithme dijkstra
-	void Atest(int src,int dst);
+	void Atest(int src, int dst);
+
+	void tarjan();
+	void parcours(int i, int &num, int &nbscc, std::vector<std::pair<int, int>> &noeuds, std::vector<bool> &estdanspile, std::vector<int> &pile);
 };
-
-// struct pour dijkstra et A*
-struct noeud
-{
-	Maison m;
-	// distance parcourue
-	int cout;
-	// distance parcourue plus distance de l'arrivé
-	int heuristique;
-	noeud(Maison ma, int c, int h) : m(ma), cout(c), heuristique(h) {}
-
-	bool operator==(noeud const &n)
+	// struct pour dijkstra et A*
+	struct noeud
 	{
-		return (m.getCoord() == n.m.getCoord()) && (cout == n.cout) && (heuristique == n.heuristique);
-	}
-	bool operator<(noeud const &n1)
-	{
-		return heuristique > n1.heuristique;
-	}
+		Maison m;
+		// distance parcourue
+		int cout;
+		// distance parcourue plus distance de l'arrivé
+		int heuristique;
+		std::pair<int,int> pred;
+		noeud(Maison ma, int c, int h) : m(ma), cout(c), heuristique(h) {}
+		noeud(Maison ma, int c, int h, std::pair<int, int> p) : m(ma), cout(c), heuristique(h),pred(p)
+		{
+		}
+
+		bool operator==(noeud const &n)
+		{
+			return (m.getCoord() == n.m.getCoord()) && (cout == n.cout) && (heuristique == n.heuristique);
+		}
+		bool operator<(noeud const &n1)
+		{
+			return heuristique > n1.heuristique;
+		}
 };
 
 std::ostream & operator<<(std::ostream &os,coordonnee c);
