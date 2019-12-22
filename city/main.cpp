@@ -145,5 +145,6 @@ int main(int argc, char** argv){
 	ville.courseDijkAetoile(1,2);
 	std::cout<<std::endl;
 	ville.tarjan();
+	ville.kruskal();
 	return 0;
 }

@@ -72,6 +72,8 @@ public:
 
 	void tarjan();
 	void parcours(int i, int &num, int &nbscc, std::vector<std::pair<int, int>> &noeuds, std::vector<bool> &estdanspile, std::vector<int> &pile);
+
+	void kruskal();
 };
 	// struct pour dijkstra et A*
 	struct noeud

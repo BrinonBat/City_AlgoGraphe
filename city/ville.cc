@@ -315,6 +315,7 @@ void Ville::parcours(int i,int &num,int &nbscc, std::vector<std::pair<int, int>>
 	}
 }
 void Ville::tarjan(){
+	std::cout <<"-------------------------------------- Tarjan --------------------------------"<< std::endl;
 	//index i dans le vecteur représente le noeud i
 	int pasvisite = -1;
 	int num=0;
@@ -339,4 +340,84 @@ void Ville::tarjan(){
 	{
 		std::cout<<"Sommet :"<<i+1<<" num:"<<noeuds[i].first<<" rattaché à num:"<<noeuds[i].second<<std::endl;
 	}
+}
+bool recherchekruskal(int s1,int s2,std::vector<std::pair<int,std::pair<int,int> > > arcs){
+	for (auto &it : arcs)
+	{
+		if((it.second.first==s1 && it.second.second==s2 ) || (it.second.first==s2 && it.second.second==s1)){
+			return true;
+		}
+	}
+	return false;
+}
+
+int findroot(int i, int * parent){
+	//si i est son propre parent
+	if(i==parent[i]){
+		return i;
+	}else{
+		//sinon si i n'est pas son propre parent, alors i n'est pas représentatif de
+		// son arbre, donc on appel findroot sur son parent
+		return findroot(parent[i],parent);
+	}
+}
+
+void Ville::kruskal(){
+	std::cout <<"---------------------------------- Kruskal --------------------------------"<< std::endl;
+	std::vector<std::pair<int,std::pair<int,int> > > arcs;
+	std::vector<std::pair<int, std::pair<int, int>>> spanningtree;
+	int *parent=new int[nbSommet()];
+
+	for(int i=0; i<nbSommet();i++){
+		parent[i]=i;
+	}
+
+	// on récupère tous les arcs du graphe
+	for(auto & at : _maisons){
+		for(auto & to : at.getVoisins()){
+			if (!recherchekruskal(indiceMaison(at.getCoord()), indiceMaison(to.getCoord()),arcs)){
+				arcs.push_back(std::make_pair(donneIndice(at,to),std::make_pair(indiceMaison(at.getCoord()),indiceMaison(to.getCoord()))));
+			}
+		}
+	}
+	// on trie par ordre croissant de poids
+	std::sort(arcs.begin(),arcs.end());
+	std::cout<<"Liste des arcs par ordre croissant"<<std::endl;
+	for (auto &i : arcs){
+		std::cout << i.first << ":" << i.second.first + 1 << "-" << i.second.second + 1 << "  ";
+	}
+	std::cout<<std::endl;
+	int uRep,vRep;
+	for(int i=0; i < (int)arcs.size();i++){
+		std::cout<<"Etape "<<i+1<<" :"<<std::endl;
+		std::cout<<"Arc courant : "<<arcs[i].second.first+1<<" - "<<arcs[i].second.second+1<<std::endl;
+		uRep= findroot(arcs[i].second.first,parent);
+		vRep=findroot(arcs[i].second.second,parent);
+		std::cout << " Racine de " << arcs[i].second.first +1<< " est : " << uRep+1 << " Racine de " << arcs[i].second.second+1 << " est : " << vRep+1 << std::endl;
+		if(uRep!=vRep){
+			std::cout << " On ajoute à l'arbre de poids minimal l'arc " << arcs[i].second.first+1 << " - " << arcs[i].second.second+1<<std::endl;
+			spanningtree.push_back(arcs[i]);// on ajoute à l'arbre de poids minimal
+			parent[uRep]=parent[vRep];// le parent du sommet vrep devient celui de urep aussi
+		}else{
+			std::cout<<" Les deux sommets sont déjà dans l'arbre, on ne fait rien"<<std::endl;
+		}
+		std::cout << std::endl;
+		std::cout<<"Arbre -> ";
+		for (auto &i : spanningtree)
+		{
+			std::cout << i.first << ":" << i.second.first + 1 << " - " << i.second.second + 1 <<" | ";
+		}
+		std::cout<<"\n"<<std::endl;
+	}
+
+	
+	std::cout<<"\nArbre de poids minimum"<<std::endl;
+	std::cout << "Poids :\tArc" << std::endl;
+	int poids=0;
+	for (auto &i : spanningtree)
+	{
+		std::cout << i.first << "     : " << i.second.first + 1 << " - " << i.second.second + 1 << std::endl;
+		poids+=i.first;
+	}
+	std::cout<<"Poids : "<<poids<<std::endl;
 }
