@@ -1,0 +1,94 @@
+------------------------------------------ Début Dijktra ------------------------------------
+---Noeud courant 1 - (1,-1,0)
+	 Distance entre (1,-1,0) et 2 - (-1,2,-1) est 3 Distance parcourue : 3
+	2 - (-1,2,-1) - cout: 3 - heur: 3 - dist arrive: 3
+
+	 Distance entre (1,-1,0) et 4 - (2,-2,0) est 1 Distance parcourue : 1
+	4 - (2,-2,0) - cout: 1 - heur: 1 - dist arrive: 4
+
+	 Distance entre (1,-1,0) et 5 - (1,0,-1) est 1 Distance parcourue : 1
+	5 - (1,0,-1) - cout: 1 - heur: 1 - dist arrive: 3
+
+
+   Noeuds possible ||| 2 (-1,2,-1) Distance parcourue : 3 ||| 4 (2,-2,0) Distance parcourue : 1 ||| 5 (1,0,-1) Distance parcourue : 1
+   5 - (1,0,-1) a été choisi car il est le plus proche de notre destination
+
+---Noeud courant 5 - (1,0,-1)
+	 Distance entre (1,0,-1) et 1 - (1,-1,0) est 1 Distance parcourue : 2
+	 Le sommet 1 - (1,-1,0) a déjà été parcourue
+	 Distance entre (1,0,-1) et 6 - (0,1,-1) est 1 Distance parcourue : 2
+	6 - (0,1,-1) - cout: 2 - heur: 2 - dist arrive: 3
+
+	 Distance entre (1,0,-1) et 4 - (2,-2,0) est 2 Distance parcourue : 3
+	 Le sommet 4 - (2,-2,0) a déjà un chemin et plus court
+
+   Noeuds possible ||| 2 (-1,2,-1) Distance parcourue : 3 ||| 6 (0,1,-1) Distance parcourue : 2 ||| 4 (2,-2,0) Distance parcourue : 1
+   4 - (2,-2,0) a été choisi car il est le plus proche de notre destination
+
+---Noeud courant 4 - (2,-2,0)
+	 Distance entre (2,-2,0) et 2 - (-1,2,-1) est 4 Distance parcourue : 5
+	 Le sommet 2 - (-1,2,-1) a déjà un chemin et plus court
+	 Distance entre (2,-2,0) et 6 - (0,1,-1) est 3 Distance parcourue : 4
+	 Le sommet 6 - (0,1,-1) a déjà un chemin et plus court
+
+   Noeuds possible ||| 2 (-1,2,-1) Distance parcourue : 3 ||| 6 (0,1,-1) Distance parcourue : 2
+   6 - (0,1,-1) a été choisi car il est le plus proche de notre destination
+
+---Noeud courant 6 - (0,1,-1)
+Ce noeud n'a pas de voisin retour arrière
+
+   Noeuds possible ||| 2 (-1,2,-1) Distance parcourue : 3
+   2 - (-1,2,-1) a été choisi car il est le plus proche de notre destination
+
+---Noeud courant 2 - (-1,2,-1)
+	 Distance entre (-1,2,-1) et 3 - (-2,0,2) est 3 Distance parcourue : 6
+	3 - (-2,0,2) - cout: 6 - heur: 6 - dist arrive: 0
+
+
+   Noeuds possible ||| 3 (-2,0,2) Distance parcourue : 6
+   3 - (-2,0,2) a été choisi car il est le plus proche de notre destination
+
+---Noeud courant 3 - (-2,0,2)
+-----------------------------------------------------> La distance de 1 à 3 selon dijkstra est de 6
+------------------------------------------ Début A* ------------------------------------
+---Noeud courant 1 - (1,-1,0)
+	 Distance entre (1,-1,0) et 2 - (-1,2,-1) est 3 Distance parcourue : 3
+	2 - (-1,2,-1) - cout: 3 - heur: 6 - dist arrive: 3
+	 Distance entre (1,-1,0) et 4 - (2,-2,0) est 1 Distance parcourue : 1
+	4 - (2,-2,0) - cout: 1 - heur: 5 - dist arrive: 4
+	 Distance entre (1,-1,0) et 5 - (1,0,-1) est 1 Distance parcourue : 1
+	5 - (1,0,-1) - cout: 1 - heur: 4 - dist arrive: 3
+   Noeuds possible ||| 2 (-1,2,-1) Distance parcourue + distance de l'arrivé: 6 ||| 4 (2,-2,0) Distance parcourue + distance de l'arrivé: 5 ||| 5 (1,0,-1) Distance parcourue + distance de l'arrivé: 4
+   5 - (1,0,-1) a été choisi car il est le plus proche de notre destination
+
+---Noeud courant 5 - (1,0,-1)
+	 Distance entre (1,0,-1) et 1 - (1,-1,0) est 1 Distance parcourue : 2
+	 Le sommet 1 - (1,-1,0) a déjà été parcourue
+	 Distance entre (1,0,-1) et 6 - (0,1,-1) est 1 Distance parcourue : 2
+	6 - (0,1,-1) - cout: 2 - heur: 5 - dist arrive: 3
+	 Distance entre (1,0,-1) et 4 - (2,-2,0) est 2 Distance parcourue : 3
+	 Le sommet 4 - (2,-2,0) a déjà un chemin et plus court
+   Noeuds possible ||| 2 (-1,2,-1) Distance parcourue + distance de l'arrivé: 6 ||| 4 (2,-2,0) Distance parcourue + distance de l'arrivé: 5 ||| 6 (0,1,-1) Distance parcourue + distance de l'arrivé: 5
+   6 - (0,1,-1) a été choisi car il est le plus proche de notre destination
+
+---Noeud courant 6 - (0,1,-1)
+Ce noeud n'a pas de voisin retour arrière
+   Noeuds possible ||| 2 (-1,2,-1) Distance parcourue + distance de l'arrivé: 6 ||| 4 (2,-2,0) Distance parcourue + distance de l'arrivé: 5
+   4 - (2,-2,0) a été choisi car il est le plus proche de notre destination
+
+---Noeud courant 4 - (2,-2,0)
+	 Distance entre (2,-2,0) et 2 - (-1,2,-1) est 4 Distance parcourue : 5
+	 Le sommet 2 - (-1,2,-1) a déjà un chemin et plus court
+	 Distance entre (2,-2,0) et 6 - (0,1,-1) est 3 Distance parcourue : 4
+	 Le sommet 6 - (0,1,-1) a déjà été parcourue
+   Noeuds possible ||| 2 (-1,2,-1) Distance parcourue + distance de l'arrivé: 6
+   2 - (-1,2,-1) a été choisi car il est le plus proche de notre destination
+
+---Noeud courant 2 - (-1,2,-1)
+	 Distance entre (-1,2,-1) et 3 - (-2,0,2) est 3 Distance parcourue : 6
+	3 - (-2,0,2) - cout: 6 - heur: 6 - dist arrive: 0
+   Noeuds possible ||| 3 (-2,0,2) Distance parcourue + distance de l'arrivé: 6
+   3 - (-2,0,2) a été choisi car il est le plus proche de notre destination
+
+---Noeud courant 3 - (-2,0,2)
+-----------------------------------------------------> La distance de 1 à 3 selon A* est de 6
